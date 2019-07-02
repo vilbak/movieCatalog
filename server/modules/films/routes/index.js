@@ -1,16 +1,22 @@
 const express = require('express')
 const router = express.Router()
 
-const filmController = require('../controllers')
+const {
+  getFilmsController,
+  getFilmByIdController,
+  deleteFilmByIdController,
+  postFilmsController
+
+} = require('../controllers/filmsController')
 
 router
   .route('/')
-  .get(filmController.getFilm)
-  .post(filmController.postFilm)
+  .post(postFilmsController)
+  .get(getFilmsController)
 
 router
   .route('/:id')
-  .put(filmController.putFilm)
-  .delete(filmController.deleteFilm)
+  .get(getFilmByIdController)
+  .delete(deleteFilmByIdController)
 
 module.exports = router
