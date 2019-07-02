@@ -1,7 +1,5 @@
-exports.getName = function (req,res){
-  console.log('Got a Get request');
+exports.getName = function (req, res) {
+  console.log('Got a Get request')
 
-  res.json(req.query);
-  
+  res.json(req.query)
 }
-
