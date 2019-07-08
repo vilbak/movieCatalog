@@ -1,5 +1,5 @@
 
-const Film = require('../data/model/film')
+const Film = require('../repository/model/film')
 
 const validationMovie = require('../../../middleware/validationMovie')
 
@@ -17,9 +17,11 @@ exports.postFilmsController = (req, res) => {
 }
 
 exports.getFilmsController = (req, res) => {
+  console.log(req)
   Film.find().limit(10)
     .then(filmsArr => res.json(filmsArr))
     .catch(err => res.json(err))
+    
 }
 
 exports.getFilmByIdController = (req, res, next) => {
