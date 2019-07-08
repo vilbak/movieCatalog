@@ -30,7 +30,8 @@ exports.postUserRegisterController = (req, res, next) => {
         name: req.body.name,
         email: req.body.email,
         avatar,
-        password: req.body.password
+        password: req.body.password,
+        isAdmin: false
 
       })
 
@@ -77,7 +78,8 @@ exports.postUserLoginController = (req, res, next) => {
         const payload = {
           id: user.id,
           name: user.name,
-          avatar: user.avatar
+          avatar: user.avatar,
+          isAdmin: user.isAdmin
 
         }
         jwt.sign(
