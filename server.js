@@ -5,7 +5,11 @@ const express = require('express')
 const connectDB = require('./config/db')
 const bodyParser = require('body-parser')
 const app = express()
-// const logger = require('./server/middleware/logger') 
+const cors = require('cors')
+const passport = require('passport')
+const passportConfig = require('./config/passport')
+// const logger = require('./server/middleware/logger')
+app.use(cors())
 
 const modules = require('./server/modules/')
 
@@ -16,12 +20,19 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
+
 // const loggerstream = {
 //   write: function (message, encoding) {
 //     logger.info(message)
 //   }
 // }
 // app.use(require('morgan')('combined', { 'stream': loggerstream }))
+// Passport middleware
+app.use(passport.initialize())
+
+// Passport Config
+passportConfig(passport)
+
 app.use('/', modules)
 
 const port = process.env.PORT || 5000

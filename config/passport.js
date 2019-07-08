@@ -1,7 +1,6 @@
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
-const mongoose = require('mongoose')
-const User = mongoose.model('users')
+const User = require('../server/modules/user/data/model/user')
 const uri = require('../config/default')
 
 const opts = {}

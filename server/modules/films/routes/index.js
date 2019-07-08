@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
 
 const {
   getFilmsController,
@@ -9,11 +10,8 @@ const {
 
 } = require('../controllers/filmsController')
 
-router
-  .route('/')
-  .post(postFilmsController)
-  .get(getFilmsController)
-
+router.get('/', passport.authenticate('jwt', { session: false }), getFilmsController)
+router.post('/', passport.authenticate('jwt', { session: false }), postFilmsController)
 router
   .route('/:id')
   .get(getFilmByIdController)
