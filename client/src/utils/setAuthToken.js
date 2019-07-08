@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const setAuthToken = token => {
+  axios.defaults.headers.common['Access-Control-Allow-Origin']="*"
   if (token) {
     // Apply to every request
     axios.defaults.headers.common['Authorization'] = token;
