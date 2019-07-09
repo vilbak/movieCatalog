@@ -9,6 +9,7 @@ import Footer from './components/footers/Footer'
 import setAuthToken from "./utils/setAuthToken"
 import {loginSuccess, logoutUser} from "./actions/authenticate"
 
+
 // Check for token
 if (localStorage.jwtToken) {
   // Set auth token header auth

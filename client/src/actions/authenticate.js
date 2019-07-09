@@ -1,4 +1,4 @@
-import {AUTH_USER_START,AUTH_USER_LOADING,AUTH_USER_ERROR,AUTH_USER_END,LOGGED_IN_USER,LOGIN_SUCCESS} from './types'
+import {AUTH_USER_START,AUTH_USER_LOADING,AUTH_USER_END,LOGIN_SUCCESS,LOGOUT} from './types'
 import axios from 'axios';
 import jwt_decode from "jwt-decode";
 import setAuthToken from '../utils/setAuthToken'
@@ -48,6 +48,15 @@ export const loginUser = (userData, history) => dispatch  => {
       payload: decoded
     };
   };
+export const LogOut = decoded =>{
+   return{
+     type:LOGOUT,
+     payload: decoded,
+     isAuthenticated:false
+
+   }
+}
+  
   
   // Log user out
   export const logoutUser = () => dispatch => {
@@ -56,5 +65,5 @@ export const loginUser = (userData, history) => dispatch  => {
     // Remove auth header for future requests
     setAuthToken(false);
     // Set current user to {} which will set isAuthenticated to false
-    dispatch(loginSuccess({}))
+    dispatch (LogOut( {}))
   }

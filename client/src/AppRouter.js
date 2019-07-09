@@ -7,7 +7,7 @@ import Landing from "./components/layout/layout"
 import Register from "./components/auth/Register"
 import Login from "./components/auth/Login"
 import PrivateRoute from "./PrivateRoute"
-import Films from "./components/filmList/Films"
+import Films from "./components/filmList/FilmList"
 
 const AppRouter = () =>{
     return(
