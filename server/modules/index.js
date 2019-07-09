@@ -14,9 +14,8 @@ router.use('/hello-world', helloWorldRoute)
 
 router.use('/user', userRoute)
 
-router.use('/films', (req, res, next)=>{console.log(req); next()}, filmRoute)
+router.use('/films', (req, res, next) => { console.log(req); next() }, filmRoute)
 
 router.use('/films/categories', categoryRoute)
-
 
 module.exports = router
