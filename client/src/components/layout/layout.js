@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
- import {BrowseRouter, Link} from 'react-router-dom'
+ import{Link} from 'react-router-dom'
 class Landing extends Component {
   render() {
     return (
       <div className="landing">
         <div className="dark-overlay landing-inner text-light">
-          <div className="">
+          <div>
             <div className="row">
               <div className="col-md-12 text-center">
                 <h1 className="display-3 mb-4">MovieDB</h1>

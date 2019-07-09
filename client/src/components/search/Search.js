@@ -1,29 +1,11 @@
 import React from 'react';
-import Film from "../film/Film"
-import './Search.css';
 
-const Search = (props) => {
-    let resultList = null
 
-    if (props.searching && (props.defaultTitle !== '')) {
-        resultList = (
-            <ul className="results">
-                {props.results.map(item => (
-                    <li key={} onClick={() => props.clicked(item)}>
-                        <img src={.Poster} alt="Movie Poster"/>
-                        {.Title}
-                    </li>
-                ))}
-            </ul>
-        )
-    }
-  
-    return (
-        <div className="search">
-            <input type="search" name="movie-search" value={props.defaultTitle} onChange={props.search} />
-            {resultList}
-        </div>
-    );
-};
+const Search =()=>(
+    <form class="form-inline mr-auto">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"/>
+        <button type="button" class="btn btn-info btn-rounded">Search</button>
+        </form>
+)
 
 export default Search;
