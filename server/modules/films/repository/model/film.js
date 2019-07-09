@@ -18,6 +18,11 @@ const filmShema = mongoose.Schema({
     required: true
 
   },
+  gallery: {
+    type: String,
+    required: true
+
+  },
   rating: {
     type: Number,
     min: 0,

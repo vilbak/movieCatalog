@@ -20,7 +20,6 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json())
 
-
 // const loggerstream = {
 //   write: function (message, encoding) {
 //     logger.info(message)

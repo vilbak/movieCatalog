@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-undef
 module.exports = DELETE = (req, res, data) => {
   // Check Permission
   if (!req.user.isAdmin) {

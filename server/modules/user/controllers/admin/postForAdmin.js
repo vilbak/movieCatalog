@@ -5,8 +5,18 @@ data: {
   validateFunc: validateFuncName
 }
 */
+// eslint-disable-next-line no-undef
 module.exports = postForAdmin = (req, res, data) => {
-  const { errors, isValid } = data.validateFunc(req.body)
+  if (!(req.body instanceof Array)) {
+    postOne(req, res, data)
+  } else {
+    postMany(req, res, data, req.body)
+  }
+}
+
+function postOne (req, res, data) {
+  const { body } = req
+  const { errors, isValid } = data.validateFunc(body)
 
   // Check Permission
   if (!req.user.isAdmin) {
@@ -20,19 +30,69 @@ module.exports = postForAdmin = (req, res, data) => {
     return res.status(400).json(errors)
   }
 
-  const fields = Object.assign({}, req.body)
+  const fields = Object.assign({}, body)
 
   if (fields.id) {
-    data.Model.findById(fields.id).then(elem => {
-      data.Model.findOneAndUpdate(
-        { _id: fields.id },
-        { $set: fields },
-        { new: true }
-      )
-        .then(elem => res.json(elem))
-        .catch(err => res.json(err, `Can't update`))
+    let proms = data.Model.findById(fields.id).then(elemWrap => {
+      if (elemWrap) {
+        return data.Model.findOneAndUpdate(
+          { _id: fields.id },
+          { $set: fields },
+          { new: true }
+        )
+          .then(all => res.json(all))
+          .catch(err => res.json(err))
+      } else {
+        return res
+          .status(404)
+          .json({ msg: `Item with id :${fields.id} not founded` })
+          .catch(err => res.json(err))
+      }
     })
+    return proms
   } else {
-    new data.Model(fields).save().then(elem => res.json(elem))
+    return new data.Model(fields)
+      .save()
+      .then(all => res.json(all))
+      .catch(err => res.json(err))
   }
+}
+
+function postMany (req, res, data, body) {
+  const { errors, isValid } = data.validateFunc(body)
+
+  // Check Permission
+  if (!req.user.isAdmin) {
+    // Return 401 error
+    return res.status(401).json('Insufficient rights')
+  }
+
+  // Check Validation
+  if (!isValid) {
+    // Return any errors with 400 status
+    return res.status(400).json(errors)
+  }
+
+  Promise.all(
+    body.map(elem => {
+      if (elem.id) {
+        let proms = data.Model.findById(elem.id).then(elemWrap => {
+          if (elemWrap) {
+            return data.Model.findOneAndUpdate(
+              { _id: elem.id },
+              { $set: elem },
+              { new: true }
+            )
+          } else {
+            return { status: 404, msg: `Item with id :${elem.id} not founded` }
+          }
+        })
+        return proms
+      } else {
+        return new data.Model(elem).save().limit(10)
+      }
+    })
+  )
+    .then(all => res.json(all))
+    .catch(err => res.json(err))
 }

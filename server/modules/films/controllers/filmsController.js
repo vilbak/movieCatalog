@@ -3,17 +3,13 @@ const Film = require('../repository/model/film')
 
 const validationMovie = require('../../../middleware/validationMovie')
 
+const postForAdmin = require('../../user/controllers/admin/postForAdmin')
+
 exports.postFilmsController = (req, res) => {
-  const { errors, isValid } = validationMovie(req.body)
-  if (!isValid) {
-    return res.status(400).json('Wrong model of film')
-  } else {
-    new Film(req.body).save().then(film => {
-      res.json(film)
-    }).catch((errors) => {
-      console.error(errors)
-    })
-  }
+  postForAdmin(req, res, {
+    Model: Film,
+    validateFunc: validationMovie
+  })
 }
 
 exports.getFilmsController = (req, res) => {
@@ -21,7 +17,6 @@ exports.getFilmsController = (req, res) => {
   Film.find().limit(10)
     .then(filmsArr => res.json(filmsArr))
     .catch(err => res.json(err))
-    
 }
 
 exports.getFilmByIdController = (req, res, next) => {
@@ -39,6 +34,7 @@ exports.getFilmByIdController = (req, res, next) => {
 }
 
 exports.deleteFilmByIdController = (req, res) => {
+  if (!req.user.isAdmin) return res.status(401).json('Insufficient rights')
   // Check Permission
 
   Film.findById({ _id: req.params.id })
